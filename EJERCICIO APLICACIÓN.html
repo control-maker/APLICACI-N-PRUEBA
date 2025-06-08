@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipo Feedback App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #495057;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Changed to flex-start */
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-style: italic;
+            color: #ddd;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #343a40;
+            color: white;
+            padding: 0.5em 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #495057;
+        }
+
+        /* Container Styles */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2em auto;
+            background-color: white;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        /* Section Titles */
+        h2 {
+            color: #007bff;
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 0.5em;
+            margin-bottom: 1em;
+        }
+
+        /* Feedback Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 0.75em;
+            font-weight: 500;
+            color: #343a40;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            padding: 0.75em;
+            margin-top: 0.3em;
+            margin-bottom: 1em;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 1em;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin-bottom: 1em;
+        }
+
+        .rating-value {
+            text-align: center;
+            font-size: 1.2em;
+            color: #007bff;
+        }
+
+        /* Anonymity Checkbox */
+        .anonymous-option {
+            margin-top: 1em;
+        }
+
+        .anonymous-option label {
+            font-weight: normal;
+        }
+
+        /* Submit Button */
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            align-self: center; /* Center the button */
+            width: fit-content; /* Make it only as wide as its content */
+            margin-top: 1em;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Results Section */
+        .results {
+            margin-top: 2em;
+            padding-top: 2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chart {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 2em;
+        }
+
+        .motivational-message {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-left: 5px solid #3bb75e;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
+            margin-top: auto; /* Push footer to the bottom */
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 1em;
+            }
+            nav a {
+                display: block;
+                padding: 0.5em;
+            }
+            .chart {
+                max-width: 100%;
+            }
+        }
+
+        /* Gamification Styles */
+        .badges {
+            display: flex;
+            justify-content: center;
+            margin-top: 1em;
+        }
+
+        .badge {
+            margin: 0 0.5em;
+            padding: 0.5em 1em;
+            background-color: #ffc107;
+            color: #212529;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Improve area */
+        .improve-area {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .improve-area h3 {
+            color: #dc3545;
+        }
+
+        .improve-area p {
+            font-style: italic;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Feedback Flow</h1>
+        <p>Impulsando el crecimiento y la colaboración.</p>
+    </header>
+
+    <nav>
+        <a href="#feedback-form"><i class="fas fa-comment-dots"></i> Dar Feedback</a>
+        <a href="#results"><i class="fas fa-chart-bar"></i> Ver Resultados</a>
+    </nav>
+
+    <div class="container">
+        <section id="feedback-form">
+            <h2>Comparte tu Opinión</h2>
+            <p>Ayuda a tus compañeros a crecer mediante retroalimentación constructiva.</p>
+
+            <form id="feedbackForm">
+                <label for="recipient"><i class="fas fa-user"></i> Destinatario:</label>
+                <input type="text" id="recipient" name="recipient" placeholder="Nombre del compañero" required>
+
+                <label for="category"><i class="fas fa-list"></i> Categoría:</label>
+                <select id="category" name="category">
+                    <option value="colaboracion">Colaboración</option>
+                    <option value="comunicacion">Comunicación</option>
+                    <option value="compromiso">Compromiso</option>
+                    <option value="liderazgo">Liderazgo</option>
+                    <option value="creatividad">Creatividad</option>
+                </select>
+
+                <label for="rating"><i class="fas fa-star-half-alt"></i> Valoración (1-5):</label>
+                <input type="range" id="rating" name="rating" min="1" max="5" value="3">
+                <div class="rating-value"><span id="ratingValue">3</span></div>
+
+                <label for="comments"><i class="fas fa-comments"></i> Comentarios:</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Comentarios específicos y sugerencias"></textarea>
+
+                <div class="anonymous-option">
+                    <input type="checkbox" id="anonymous" name="anonymous">
+                    <label for="anonymous"><i class="fas fa-user-secret"></i> Retroalimentación anónima</label>
+                </div>
+
+                <button type="submit"><i class="fas fa-paper-plane"></i> Enviar Feedback</button>
+            </form>
+        </section>
+
+        <section id="results" class="results">
+            <h2>Análisis de Resultados</h2>
+            <p>Visualiza tu progreso y descubre áreas de mejora continua.</p>
+
+            <div class="chart">
+                <canvas id="feedbackChart"></canvas>
+            </div>
+
+            <div class="motivational-message">
+                "El feedback es el desayuno de los campeones." - Ken Blanchard
+            </div>
+
+            <div class="improve-area">
+                <h3>Áreas a mejorar</h3>
+                <p>Basado en tus calificaciones, te sugerimos enfocarte en <span>liderazgo</span> y <span>colaboración</span>.</p>
+            </div>
+
+            <div class="badges">
+                <div class="badge"><i class="fas fa-trophy"></i> Colaborador Estrella</div>
+                <div class="badge"><i class="fas fa-award"></i> Líder Inspirador</div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Feedback Flow. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ratingInput = document.getElementById('rating');
+            const ratingValue = document.getElementById('ratingValue');
+            const feedbackForm = document.getElementById('feedbackForm');
+            const feedbackChartCanvas = document.getElementById('feedbackChart').getContext('2d');
+            let feedbackChart;
+
+            // Update rating value dynamically
+            ratingInput.addEventListener('input', () => {
+                ratingValue.textContent = ratingInput.value;
+            });
+
+            // Handle form submission
+            feedbackForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const recipient = document.getElementById('recipient').value;
+                const category = document.getElementById('category').value;
+                const rating = parseInt(document.getElementById('rating').value);
+                const comments = document.getElementById('comments').value;
+                const anonymous = document.getElementById('anonymous').checked;
+
+                console.log('Feedback submitted:', {
+                    recipient,
+                    category,
+                    rating,
+                    comments,
+                    anonymous
+                });
+
+                updateChart(category, rating);
+                feedbackForm.reset();
+                ratingValue.textContent = '3';
+            });
+
+            // Initial Chart Data
+            const initialData = {
+                colaboracion: 0,
+                comunicacion: 0,
+                compromiso: 0,
+                liderazgo: 0,
+                creatividad: 0
+            };
+
+            const chartData = {
+                labels: Object.keys(initialData),
+                datasets: [{
+                    label: 'Puntuación Promedio',
+                    data: Object.values(initialData),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            const chartConfig = {
+                type: 'radar', // Change to radar chart for better visualization
+                data: chartData,
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 5,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        }
+                    }
+                }
+            };
+
+            feedbackChart = new Chart(feedbackChartCanvas, chartConfig);
+
+            function updateChart(category, rating) {
+                const categoryIndex = chartData.labels.indexOf(category);
+                if (categoryIndex !== -1) {
+                    const currentRating = chartData.datasets[0].data[categoryIndex] || 0;
+                    chartData.datasets[0].data[categoryIndex] = (currentRating + rating) / 2;
+                    feedbackChart.update();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
